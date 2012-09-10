@@ -63,6 +63,9 @@ function PinyinSearch()
 	let g:PinyinSearch_Chars = input('Input the First Chars: ')
 	if g:PinyinSearch_Chars == ''
 		let g:PinyinSearch_Chars = old_chars
+		if g:PinyinSearch_Chars == ''
+			return
+		endif
 	endif
 
 	let line = getline('.')[getpos('.')[2] - 1:]
