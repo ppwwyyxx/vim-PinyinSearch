@@ -12,11 +12,10 @@ INSTALL:
 
 1. copy PinyinSearch.vim to your plugin directory
 
-2. specify the location of other two files in your .vimrc, e.g.:
+2. specify the location of dict file in your .vimrc, e.g.:
 
 		let g:PinyinSearch_Dict = '/home/wyx/.vim/PinyinSearch.dict'
-		let g:PinyinSearch_Python = '/home/wyx/.vim/PinyinSearch.py'
 
 3. add your custom key map, e.g.:
 
-		nnoremap<silent><expr> <c-f> PinyinSearch()
+		nnoremap<expr><c-f> :call PinyinSearch()<CR>
