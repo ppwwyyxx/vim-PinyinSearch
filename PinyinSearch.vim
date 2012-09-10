@@ -4,9 +4,6 @@ import vim,sys
 ENCODING = 'utf-8'
 
 def find_next(line):
-    """
-        return the location
-    """
     flag = r = 0
     for i in line:
         r += 1
@@ -44,7 +41,6 @@ def Pinyin_Next():
                 if r > 0 :
                     vim.command("normal {0}l".format(r))
                 break
-    return
 
 def Pinyin_Search():
     text = ''.join(map(lambda x : x.strip(), b)).decode(ENCODING)
@@ -69,7 +65,6 @@ if op == 0 :
 	Pinyin_Next()
 else :
 	Pinyin_Search()
-
 EOF
 endfunc
 
@@ -77,7 +72,26 @@ let g:PinyinSearch_Chars = ''
 function PinyinSearch()
 	call clearmatches()
     let old_chars = g:PinyinSearch_Chars
-    let g:PinyinSearch_Chars = input('Input the First Chars: ')
+    let g:PinyinSearch_Chars = input('Input the Leader Chars: ')
+    if g:PinyinSearch_Chars == ''
+        let g:PinyinSearch_Chars = old_chars
+        if g:PinyinSearch_Chars == ''
+            return
+        endif
+    endif
+
+    let old_gdefault=&gdefault
+    set nogdefault
+    let g:PinyinSearch_Chars = substitute(g:PinyinSearch_Chars, '"', '\\"' , "g")
+    let &gdefault = old_gdefault
+
+	let flag = 1
+    call Pinyin(g:PinyinSearch_Dict, g:PinyinSearch_Chars, flag)
+endfunction
+
+function PinyinNext()
+    let old_chars = g:PinyinSearch_Chars
+    let g:PinyinSearch_Chars = input('Input the Leader Chars: ')
     if g:PinyinSearch_Chars == ''
         let g:PinyinSearch_Chars = old_chars
         if g:PinyinSearch_Chars == ''
@@ -92,7 +106,6 @@ function PinyinSearch()
     let g:PinyinSearch_Chars = substitute(g:PinyinSearch_Chars, '"', '\\"' , "g")
     let &gdefault = old_gdefault
 
+	let	flag = 0
     call Pinyin(g:PinyinSearch_Dict, g:PinyinSearch_Chars, flag)
 endfunction
-
-function PinyinNext()
