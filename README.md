@@ -19,7 +19,9 @@ INSTALL:
 3. add your custom key map, e.g.:
 
 		nnoremap <Leader>ps :call PinyinSearch()<CR>
-		nnoremap <Leader>pn :call PinyinNext()<CR>
+		nnoremap <Leader>pn :call PinyinNext(0)<CR>
+
+		PinyinNext(0) search forward, PinyinNext(1) search backward
 
 USAGE:
 ======
