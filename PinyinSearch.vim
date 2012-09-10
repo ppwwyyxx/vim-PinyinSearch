@@ -95,4 +95,4 @@ function PinyinSearch()
     call Pinyin(g:PinyinSearch_Dict, g:PinyinSearch_Chars, flag)
 endfunction
 
-"function PinyinNext()
+function PinyinNext()
