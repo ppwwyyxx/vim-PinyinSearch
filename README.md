@@ -29,9 +29,9 @@ USAGE:
 	If no target is given to PinyinNext(), it will use your last target.
 
 	call PinyinSearch() and enter the target chars, all matched words will be highlighted, you can
-	use 'n' in normal mode to jump between the matched words.  
+	use 'n' and 'N' in normal mode to jump forward/backward between the matched words.  
 	call PinyinSearch() again without giving any target to clear the highlight and restore your
-	custom map for 'n'.
+	custom map for 'n' and 'N'.
 
 EXAMPLE:
 ========
@@ -45,7 +45,7 @@ EXAMPLE:
 	to "都能", call PinyinNext() and enter "<Enter>", the cursor will move to "大能".
 
 	Put cursor at the start of file, call PinyinSearch() and enter "dn<Enter>", "都能" and "大能"
-	will be highlighted, you can use 'n' to jump to next highlited text. 
+	will be highlighted, you can use 'n'/'N' to jump between highlited text. 
 
 	Don't forget to call PinyinSearch() again without giving the target.
 

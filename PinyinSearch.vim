@@ -3,6 +3,15 @@ python << EOF
 import vim,sys
 ENCODING = 'utf-8'
 
+op = int(vim.eval("a:op"))
+table = vim.eval("a:table");
+chars = vim.eval("a:char").decode(ENCODING)
+charlen = len(chars)
+cur = vim.current; w = cur.window; b = cur.buffer
+dict_file = open(table, 'r')
+Dict = {}
+map(lambda x: Dict.__setitem__(x.split(' ')[0].decode(ENCODING), map(lambda u: u.strip(), x.split(' ')[1:])), dict_file.readlines())
+
 def find_next(line):
     flag = r = 0
     for i in line:
@@ -11,7 +20,6 @@ def find_next(line):
             t = Dict[i]
         except KeyError:
             t = i
-
         if chars[flag] in t:
             flag += 1
         elif chars[0] in t:
@@ -44,6 +52,27 @@ def Pinyin_Next():
                 return 1
     return 0
 
+def Pinyin_Prev():
+    pos = w.cursor
+    line = b[pos[0] - 1][:pos[1]].decode(ENCODING)[::-1]
+    global chars
+    chars = chars[::-1]
+    r = find_next(line)                        # the reverse part don't include itself
+    if r >= 0:
+        vim.command("normal {0}h".format(r + charlen))        
+        return 1
+    else :
+        for i in xrange(pos[0] - 2, -1, -1):
+            line = b[i].strip().decode(ENCODING)[::-1]
+            r = find_next(line)
+            if r >= 0 :
+                vim.command("normal {0}G$".format(i + 1))
+                if r > 0 :
+                    vim.command("normal {0}h".format(r + charlen - 1))
+                return 1
+    return 0
+
+
 def Pinyin_Search():
     text = ''.join(map(lambda x : x.strip(), b)).decode(ENCODING)
     l = 0
@@ -55,43 +84,43 @@ def Pinyin_Search():
             l = l + r + 1
         else :
             break
-
-op = int(vim.eval("a:op"))
-table = vim.eval("a:table"); chars = vim.eval("a:char").decode(ENCODING)
-charlen = len(chars)
-cur = vim.current; w = cur.window; b = cur.buffer
-dict_file = open(table, 'r')
-Dict = {}
-map(lambda x: Dict.__setitem__(x.split(' ')[0].decode(ENCODING), map(lambda u: u.strip(), x.split(' ')[1:])), dict_file.readlines())
 if op == 0 :
-    Pinyin_Next()
+    vim.command("return {0}".format(Pinyin_Next()))
+elif op == 1 :
+    vim.command("return {0}".format(Pinyin_Prev()))
 else :
     Pinyin_Search()
 EOF
 endfunc
 
 let g:PinyinSearch_Chars = ''
+
+function PinyinInitialize()
+    let g:old_gdefault=&gdefault
+    set nogdefault
+    let g:PinyinSearch_Chars = substitute(g:PinyinSearch_Chars, '"', '\\"' , "g")
+    let &gdefault = g:old_gdefault
+endfunc
+
 function PinyinSearch()
     call clearmatches()
     let old_chars = g:PinyinSearch_Chars
     let g:PinyinSearch_Chars = input('Input the Leader Chars: ')
     if g:PinyinSearch_Chars == ''
         call RestoreUserMaps("UserMap")
-		return 
+        return 
     endif
+    call PinyinInitialize()
 
-    let old_gdefault=&gdefault
-    set nogdefault
-    let g:PinyinSearch_Chars = substitute(g:PinyinSearch_Chars, '"', '\\"' , "g")
-    let &gdefault = old_gdefault
-
-    let flag = 1
+    let flag = 2
     call Pinyin(g:PinyinSearch_Dict, g:PinyinSearch_Chars, flag)
     call SaveUserMaps("n","","n","UserMap")
-    nnoremap n :call PinyinNext()<CR><CR>
+    call SaveUserMaps("n","","N","UserMap")
+    nnoremap n :call PinyinNext(0)<CR><CR>
+    nnoremap N :call PinyinNext(1)<CR><CR>
 endfunction
 
-function PinyinNext()
+function PinyinNext(flag)
     let old_chars = g:PinyinSearch_Chars
     let g:PinyinSearch_Chars = input('Input the Leader Chars: ')
     if g:PinyinSearch_Chars == ''
@@ -100,19 +129,12 @@ function PinyinNext()
             return
         endif
     endif
+    call PinyinInitialize()
 
-    let line = getline('.')[getpos('.')[2] - 1:]
-    let old_gdefault=&gdefault
-    set nogdefault
-    let line = substitute(line, '"', '\\"' , "g")
-    let g:PinyinSearch_Chars = substitute(g:PinyinSearch_Chars, '"', '\\"' , "g")
-    let &gdefault = old_gdefault
-
-    let    flag = 0
-    let ret = Pinyin(g:PinyinSearch_Dict, g:PinyinSearch_Chars, flag)
+    let ret = Pinyin(g:PinyinSearch_Dict, g:PinyinSearch_Chars, a:flag)
     if ret == 0
-		redraw!
-		echohl warningmsg
+        redraw!
+        echohl warningmsg
         echomsg 'Word Not Found'
     endif
 endfunction
