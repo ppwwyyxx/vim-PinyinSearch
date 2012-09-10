@@ -34,31 +34,42 @@ def pinyin_match(table, line, char):
 
 #fout = open("out.txt", 'a')
 import vim
-table = vim.eval("a:table"); char = vim.eval("a:char")
+table = vim.eval("a:table"); char = vim.eval("a:char").decode(ENCODING)
 cur = vim.current; w = cur.window; b = cur.buffer
 pos = w.cursor
 line = b[pos[0] - 1][pos[1]:]
 line = line.decode(ENCODING)
-r = pinyin_match(table, line[1:], char.decode(ENCODING))
+r = pinyin_match(table, line[1:], char)
 #fout.write(table + '   ' + char + '   ' + line[1:] + '\n')
 #fout.write(str(r) + '\n')
 #fout.close()
 if r >= 0:
 	vim.command("normal {0}l".format(r + 1))
+else :
+	for i in xrange(len(b) - pos[0]):
+		line = b[pos[0] + i].strip().decode(ENCODING)
+		r = pinyin_match(table, line, char)
+		if r >= 0 :
+			vim.command("normal {0}G".format(pos[0] + i + 1))
+			if r > 0 :
+				vim.command("normal {0}l".format(r))
+			break
 EOF
 endfunc
 
+let g:PinyinSearch_Chars = ''
 function PinyinSearch()
-	let chars = input('Input the First Chars: ')
-	if chars == ''
-		return
+	let old_chars = g:PinyinSearch_Chars
+	let g:PinyinSearch_Chars = input('Input the First Chars: ')
+	if g:PinyinSearch_Chars == ''
+		let g:PinyinSearch_Chars = old_chars
 	endif
 
 	let line = getline('.')[getpos('.')[2] - 1:]
 	let old_gdefault=&gdefault
 	set nogdefault
 	let line = substitute(line, '"', '\\"' , "g")
-	let chars = substitute(chars, '"', '\\"' , "g")
+	let g:PinyinSearch_Chars = substitute(g:PinyinSearch_Chars, '"', '\\"' , "g")
 	let &gdefault = old_gdefault
-	call Line_Move(g:PinyinSearch_Dict, chars)
+	call Line_Move(g:PinyinSearch_Dict, g:PinyinSearch_Chars)
 endfunction

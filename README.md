@@ -1,12 +1,14 @@
 FEATURE:
-	just like the original 'f' key, but support pinyin for Chinese as well as
-	continuous word
+	press <c-f> to find the next word (English or Chinese) matching the given
+	chars. If chars were not given, the last search will be used
 
 EXAMPLE:
-	今天是个好日子,心想的事儿都能成
+	今天是个好日子,心想的事儿都能成,
+	大能猫
 
 	put cursor under the above line , press <c-f> and enter "dn<Enter>", the
-	cursor will move to "都能"
+	cursor will move to "都能", press <c-f> and enter "<Enter>", the cursor
+	will move to "大能"
 
 INSTALL:
 
