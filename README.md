@@ -1,6 +1,6 @@
 INTRODUCTION:
 =============
-	Allow you to search Chinese in VIM by the first letter of Chinese character
+	Allow you to search Chinese in VIM by the first letter of Chinese pinyin
 
 FEATURE:
 ========
