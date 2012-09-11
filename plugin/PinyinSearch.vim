@@ -103,9 +103,9 @@ function PinyinInitialize()
 endfunc
 
 function PinyinSearch()
-    call clearmatches()
     let old_chars = g:PinyinSearch_Chars
     let g:PinyinSearch_Chars = input('Input the Leader Chars: ')
+    call clearmatches()
     if g:PinyinSearch_Chars == ''
         call RestoreUserMaps("UserMap")
         return 
