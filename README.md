@@ -37,11 +37,12 @@ USAGE:
 
 EXAMPLE:
 ========
-	----------START OF EXAMPLE FILE----------------
-	今天是个好日子,心想的事儿都能成,
 
-	大能猫
-	----------END OF EXAMPLE FILE----------------
+		----------START OF EXAMPLE FILE----------------
+		今天是个好日子,心想的事儿都能成,
+
+		大能猫
+		----------END OF EXAMPLE FILE----------------
 
 	Put cursor under the first line , call PinyinNext() and enter "dn<Enter>", the cursor will move
 	to "都能", call PinyinNext() and enter "<Enter>", the cursor will move to "大能".

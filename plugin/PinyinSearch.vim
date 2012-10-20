@@ -16,7 +16,7 @@ def find_next(line):
     flag = r = 0
     for i in line:
         r += 1
-        try:
+        try :
             t = Dict[i]
         except KeyError:
             t = i
@@ -59,7 +59,7 @@ def Pinyin_Prev():
     chars = chars[::-1]
     r = find_next(line)                        # the reverse part don't include itself
     if r >= 0:
-        vim.command("normal {0}h".format(r + charlen))        
+        vim.command("normal {0}h".format(r + charlen))
         return 1
     else :
         for i in xrange(pos[0] - 2, -1, -1):
@@ -80,7 +80,7 @@ def Pinyin_Search():
         r = find_next(text[l:])
         if r >= 0:
             word = text[(l + r) : (l + r + charlen)]
-            vim.command("call matchadd('Search', '{0}')".format(word.encode('utf-8')))
+            vim.command("call matchadd('Search', '{0}')".format(word.encode(ENCODING)))
             l = l + r + 1
         else :
             break
@@ -108,7 +108,7 @@ function PinyinSearch()
     call clearmatches()
     if g:PinyinSearch_Chars == ''
         call RestoreUserMaps("UserMap")
-        return 
+        return
     endif
     call PinyinInitialize()
 
@@ -192,7 +192,7 @@ fun! SaveUserMaps(mapmode,maplead,mapchx,suffix)
    endif
   endwhile
 "  call Decho("dounmap=".dounmap."  dobuffer<".dobuffer.">")
- 
+
   " save single map :...something...
   if strpart(a:mapchx,0,1) == ':'
 "   call Decho("save single map :...something...")
@@ -209,7 +209,7 @@ fun! SaveUserMaps(mapmode,maplead,mapchx,suffix)
    if dounmap
     exe "silent! ".mapmode."unmap ".dobuffer.amap
    endif
- 
+
   " save single map <something>
   elseif strpart(a:mapchx,0,1) == '<'
 "   call Decho("save single map <something>")
@@ -226,7 +226,7 @@ fun! SaveUserMaps(mapmode,maplead,mapchx,suffix)
    if dounmap
     exe "silent! ".mapmode."unmap ".dobuffer.amap
    endif
- 
+
   " save multiple maps
   else
 "   call Decho("save multiple maps")
