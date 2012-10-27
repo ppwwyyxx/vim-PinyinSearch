@@ -1,6 +1,7 @@
 INTRODUCTION:
 =============
-	Allow searching of Chinese in VIM by the first letter of Chinese pinyin
+	Allow searching of Chinese in VIM by the first letter of Chinese pinyin.
+	Vim中允许使用拼音首字母搜索中文.
 
 INSTALL:
 ========
@@ -11,20 +12,26 @@ INSTALL:
 
 		let g:PinyinSearch_Dict = '/home/wyx/.vim/PinyinSearch.dict'
 
-3. add your custom key map, e.g.:
+3. (optional)add your custom key map, e.g.:
 
 		nnoremap <Leader>ps :call PinyinSearch()<CR>
 		nnoremap <Leader>pn :call PinyinNext()<CR>
 
 USAGE:
 ======
-
 	call PinyinSearch() and enter the target chars(first letters of the word),
 	all the matching words will be highlighted, you can use 'n' and 'N' to
 	jump.
 
 	During a normal searching (i.e. you are searching for pure english),
 	call PinyinNext() and all the matching Chinese will also be highlighted.
+
+ ------------------------------------------------------------------------------------------
+
+	PinyinSearch()函数接受首字母输入,将高亮所有匹配的中英文,并允许用n,N跳转搜
+	索结果.
+
+	正在用'/'搜索英文时,调用PinyinNext()函数可以将匹配的中文也加入搜索.
 
 EXAMPLE:
 ========
