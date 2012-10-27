@@ -1,11 +1,6 @@
 INTRODUCTION:
 =============
-	Allow you to search Chinese in VIM by the first letter of Chinese pinyin
-
-FEATURE:
-========
-1. Jump to next matched word and remember your jump history
-2. Global highlight all matched word and jump
+	Allow searching of Chinese in VIM by the first letter of Chinese pinyin
 
 INSTALL:
 ========
@@ -19,21 +14,17 @@ INSTALL:
 3. add your custom key map, e.g.:
 
 		nnoremap <Leader>ps :call PinyinSearch()<CR>
-		nnoremap <Leader>pn :call PinyinNext(0)<CR>
-
-		PinyinNext(0) search forward, PinyinNext(1) search backward
+		nnoremap <Leader>pn :call PinyinNext()<CR>
 
 USAGE:
 ======
 
-	call PinyinNext() and enter the target chars, you will jump to next word matching the target
-	(Either English or Chinese which matches the first letter).  
-	If no target is given to PinyinNext(), it will use your last target.
+	call PinyinSearch() and enter the target chars(first letters of the word),
+	all the matching words will be highlighted, you can use 'n' and 'N' to
+	jump.
 
-	call PinyinSearch() and enter the target chars, all matched words will be highlighted, you can
-	use 'n' and 'N' in normal mode to jump forward/backward between the matched words.  
-	call PinyinSearch() again without giving any target to clear the highlight and restore your
-	custom map for 'n' and 'N'.
+	During a normal searching (i.e. you are searching for pure english),
+	call PinyinNext() and all the matching Chinese will also be highlighted.
 
 EXAMPLE:
 ========
@@ -41,14 +32,12 @@ EXAMPLE:
 		----------START OF EXAMPLE FILE----------------
 		今天是个好日子,心想的事儿都能成,
 
-		大能猫
+		大能猫dn
 		----------END OF EXAMPLE FILE----------------
+	In normal mode, enter '/dn'	, then "dn" will be highlighted.
+	Then, call PinyinNext(), then "大能" and "都能" will also be highlighted, and the
+	cursor will jump to "大能".
 
-	Put cursor under the first line , call PinyinNext() and enter "dn<Enter>", the cursor will move
-	to "都能", call PinyinNext() and enter "<Enter>", the cursor will move to "大能".
-
-	Put cursor at the start of file, call PinyinSearch() and enter "dn<Enter>", "都能" and "大能"
-	will be highlighted, you can use 'n'/'N' to jump between highlited text. 
-
-	Don't forget to call PinyinSearch() again without giving the target.
+	Or you can just simply call PinyinSearch() and enter 'dn', both English
+	and Chinese will be searched.
 
