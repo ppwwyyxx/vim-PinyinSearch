@@ -2,6 +2,7 @@ INTRODUCTION:
 =============
 	Allow searching of Chinese in VIM by the first letter of Chinese pinyin.
 	Vim中允许使用拼音首字母搜索中文.
+	The program is also available at [vim.org](www.vim.org/scripts/script.php?script_id=4211)
 
 INSTALL:
 ========
