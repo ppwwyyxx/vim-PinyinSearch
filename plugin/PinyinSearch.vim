@@ -1,5 +1,5 @@
 func s:Pinyin(table, char)
-	call clearmatches()
+    call clearmatches()
 python << EOF
 import vim,sys
 ENCODING = vim.eval("&fileencoding")
@@ -48,11 +48,15 @@ def Pinyin_Search():
     return ret
 
 result = Pinyin_Search()
-result = list(set(result))		# deduplicate
+result = list(set(result))        # deduplicate
+#f = open('/tmp/test', 'w')
+#f.write(''.join(result))
+#f.close()
 pattern = "\\\\|".join(result)
-vim.command("let @/ = \"{0}\"".format(pattern))
-vim.command("set hls")
-vim.command("normal n")
+if len(result) != 0 :
+    vim.command("let @/ = \"{0}\"".format(pattern))
+    vim.command("set hls")
+    vim.command("normal n")
 EOF
 endfunc
 
@@ -62,5 +66,5 @@ endfunc
 
 func PinyinSearch()
     let PinyinSearch_Chars = input('Input the Leader Chars: ')
-	call s:Pinyin(g:PinyinSearch_Dict, PinyinSearch_Chars)
+    call s:Pinyin(g:PinyinSearch_Dict, PinyinSearch_Chars)
 endfunc
