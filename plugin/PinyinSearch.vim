@@ -3,6 +3,8 @@ func s:Pinyin(table, char)
 python << EOF
 import vim,sys
 ENCODING = vim.eval("&fileencoding")
+if not ENCODING or ENCODING == 'none':
+	ENCODING = 'utf-8'
 table = vim.eval("a:table");
 chars = vim.eval("a:char").decode(ENCODING)
 charlen = len(chars)
