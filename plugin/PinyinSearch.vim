@@ -25,7 +25,7 @@ def find_next(line):
             flag += 1
         elif chars[0] in t:
             flag = 1
-        else :
+        else:
             flag = 0
 
         if flag == charlen:
@@ -35,7 +35,7 @@ def find_next(line):
     else:
         return r - charlen
 
-def Pinyin_Search():
+def gen_list():
     text = ''.join(map(lambda x : x.strip(), buf)).decode(ENCODING)
     l = 0
     ret = list()
@@ -46,10 +46,9 @@ def Pinyin_Search():
             ret.append(word.encode(ENCODING))
             l = l + r + 1
         else :
-            break
-    return ret
+            return ret
 
-result = Pinyin_Search()
+result = gen_list()
 result = list(set(result))        # deduplicate
 #f = open('/tmp/test', 'w')
 #f.write(''.join(result))

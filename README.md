@@ -15,7 +15,8 @@ INSTALL:
 
 3. (optional)add your custom key map, e.g.:
 
-		nnoremap <Leader>ps :call PinyinSearch()<CR>
+		nnoremap ? :call PinyinSearch()<CR>
+		" I suggest use '?' to search Pinyin (since we have 'N', why using ? to search backward)
 		nnoremap <Leader>pn :call PinyinNext()<CR>
 
 USAGE:
