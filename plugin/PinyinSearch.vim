@@ -4,14 +4,23 @@ python << EOF
 import vim,sys
 ENCODING = vim.eval("&fileencoding")
 if not ENCODING or ENCODING == 'none':
-	ENCODING = 'utf-8'
+    ENCODING = 'utf-8'
 table = vim.eval("a:table");
 chars = vim.eval("a:char").decode(ENCODING)
 charlen = len(chars)
 cur = vim.current; window = cur.window; buf = cur.buffer
-dict_file = open(table, 'r')
 Dict = {}
-map(lambda x: Dict.__setitem__(x.split(' ')[0].decode(ENCODING), map(lambda u: u.strip(), x.split(' ')[1:])), dict_file.readlines())
+with open(table, 'r') as f:
+    def update(ch, s):
+        Dict.setdefault(ch, [])
+        Dict[ch].extend(s)
+
+    for line in f.readlines():
+        sp = line.split(' ')
+        update(sp[0].decode(ENCODING), map(lambda x: x.strip(), sp[1:]))
+
+        #with open('/tmp/tmp', 'w') as f:
+        #    f.write(str(Dict))
 
 def find_next(line):
     flag = r = 0
@@ -54,10 +63,10 @@ result = list(set(result))        # deduplicate
 #f.write(''.join(result))
 #f.close()
 pattern = "\\\\|".join(result)
-if len(result) != 0 :
+if result:
     vim.command("let @/ = \"{0}\"".format(pattern))
-    vim.command("set hls")
-    vim.command("normal n")
+	#vim.command("set hls")	# this don't work
+    vim.command('call feedkeys(":set hls\<CR>")')
 EOF
 endfunc
 
@@ -69,3 +78,5 @@ func PinyinSearch()
     let PinyinSearch_Chars = input('Input the Leader Chars: ')
     call s:Pinyin(g:PinyinSearch_Dict, PinyinSearch_Chars)
 endfunc
+
+" vim: set expandtab
