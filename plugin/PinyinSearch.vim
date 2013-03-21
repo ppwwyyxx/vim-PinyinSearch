@@ -8,6 +8,8 @@ if not ENCODING or ENCODING == 'none':
 table = vim.eval("a:table");
 chars = vim.eval("a:char").decode(ENCODING)
 charlen = len(chars)
+if charlen == 0:
+	vim.command("return") # XXX error on no input
 cur = vim.current; window = cur.window; buf = cur.buffer
 Dict = {}
 with open(table, 'r') as f:
@@ -66,7 +68,7 @@ pattern = "\\\\|".join(result)
 if result:
     vim.command("let @/ = \"{0}\"".format(pattern))
 	#vim.command("set hls")	# this don't work
-    vim.command('call feedkeys(":set hls\<CR>")')
+    vim.command('call feedkeys(":set hls\<CR>n")')
 EOF
 endfunc
 
