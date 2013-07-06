@@ -72,11 +72,11 @@ if result:
 EOF
 endfunc
 
-func PinyinNext()
+func! PinyinNext()
     call s:Pinyin(g:PinyinSearch_Dict, @/)
 endfunc
 
-func PinyinSearch()
+func! PinyinSearch()
     let PinyinSearch_Chars = input('Input the Leader Chars: ')
     call s:Pinyin(g:PinyinSearch_Dict, PinyinSearch_Chars)
 endfunc
