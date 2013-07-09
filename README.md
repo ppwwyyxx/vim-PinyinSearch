@@ -11,7 +11,7 @@ INSTALL:
 
 2. specify the location of dict file in your .vimrc, e.g.:
 
-		let g:PinyinSearch_Dict = '/home/wyx/.vim/PinyinSearch.dict'
+		let g:PinyinSearch_Dict = $HOME . '/.vim/bundle/vim-PinyinSearch/PinyinSearch.dict'
 
 3. (optional)add your custom key map, e.g.:
 

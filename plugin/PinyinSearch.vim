@@ -1,4 +1,4 @@
-func s:Pinyin(table, char)
+func! s:Pinyin(table, char)
     call clearmatches()
 python << EOF
 import vim,sys
