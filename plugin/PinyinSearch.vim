@@ -1,3 +1,4 @@
+" dict from http://lingua.mtsu.edu/chinese-computing/statistics/char/list.php?Which=IN
 func! s:Pinyin(table, char)
     call clearmatches()
 python << EOF
