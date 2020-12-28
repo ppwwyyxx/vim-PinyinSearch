@@ -7,6 +7,8 @@ The program is also available at [vim.org](www.vim.org/scripts/script.php?script
 
 # Install
 
+0. Requires vim built with python3 support. Check with `:echo has('python3')`
+
 1. copy PinyinSearch.vim to your plugin directory (or through bundle)
 
 2. specify the location of dict file in your .vimrc, e.g.:

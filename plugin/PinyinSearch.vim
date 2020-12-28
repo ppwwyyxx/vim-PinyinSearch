@@ -1,29 +1,27 @@
+
 " dict from http://lingua.mtsu.edu/chinese-computing/statistics/char/list.php?Which=IN
 func! s:Pinyin(table, char)
     call clearmatches()
-python << EOF
+python3 << EOF
 import vim,sys
 ENCODING = vim.eval("&fileencoding")
 if not ENCODING or ENCODING == 'none':
     ENCODING = 'utf-8'
-table = vim.eval("a:table");
-chars = vim.eval("a:char").decode(ENCODING)
+table = vim.eval("a:table")
+chars = vim.eval("a:char")
 charlen = len(chars)
 if charlen == 0:
 	vim.command("return") # XXX error on no input
 cur = vim.current; window = cur.window; buf = cur.buffer
 Dict = {}
-with open(table, 'r') as f:
+with open(table, 'r', encoding='utf-8') as f:
     def update(ch, s):
         Dict.setdefault(ch, [])
         Dict[ch].extend(s)
 
     for line in f.readlines():
         sp = line.split(' ')
-        update(sp[0].decode(ENCODING), map(lambda x: x.strip(), sp[1:]))
-
-        #with open('/tmp/tmp', 'w') as f:
-        #    f.write(str(Dict))
+        update(sp[0], map(lambda x: x.strip(), sp[1:]))
 
 def find_next(line):
     flag = r = 0
@@ -48,23 +46,20 @@ def find_next(line):
         return r - charlen
 
 def gen_list():
-    text = ''.join(map(lambda x : x.strip(), buf)).decode(ENCODING)
+    text = ''.join(map(lambda x : x.strip(), buf))
     l = 0
     ret = list()
     while True:
         r = find_next(text[l:])
         if r >= 0:
             word = text[(l + r) : (l + r + charlen)]
-            ret.append(word.encode(ENCODING))
+            ret.append(word)
             l = l + r + 1
         else :
             return ret
 
 result = gen_list()
 result = list(set(result))        # deduplicate
-#f = open('/tmp/test', 'w')
-#f.write(''.join(result))
-#f.close()
 pattern = "\\\\|".join(result)
 if result:
     vim.command("let @/ = \"{0}\"".format(pattern))
