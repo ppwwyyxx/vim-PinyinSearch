@@ -10,8 +10,6 @@ if not ENCODING or ENCODING == 'none':
 table = vim.eval("a:table")
 chars = vim.eval("a:char")
 charlen = len(chars)
-if charlen == 0:
-	vim.command("return") # XXX error on no input
 cur = vim.current; window = cur.window; buf = cur.buffer
 Dict = {}
 with open(table, 'r', encoding='utf-8') as f:
@@ -46,6 +44,8 @@ def find_next(line):
         return r - charlen
 
 def gen_list():
+    if charlen == 0:
+      return []
     text = ''.join(map(lambda x : x.strip(), buf))
     l = 0
     ret = list()
@@ -63,7 +63,7 @@ result = list(set(result))        # deduplicate
 pattern = "\\\\|".join(result)
 if result:
     vim.command("let @/ = \"{0}\"".format(pattern))
-	#vim.command("set hls")	# this don't work
+    #vim.command("set hls")  # this don't work
     vim.command('call feedkeys(":set hls\<CR>n")')
 EOF
 endfunc
