@@ -63,8 +63,8 @@ result = list(set(result))        # deduplicate
 pattern = "\\\\|".join(result)
 if result:
     vim.command("let @/ = \"{0}\"".format(pattern))
-    #vim.command("set hls")  # this don't work
-    vim.command('call feedkeys(":set hls\<CR>n")')
+	  #vim.command("set hls")	# this doesn't work
+    vim.command('call feedkeys(":set hls\\<CR>n")')
 EOF
 endfunc
 
